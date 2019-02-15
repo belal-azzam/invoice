@@ -1,7 +1,8 @@
 @extends('layouts.default')
 @section('content')
     <h1 class="text-center">Invoice</h1>
-    <form class="repeater">
+    <form class="repeater" method="post" action="{{route('invoices.store')}}">
+        {{csrf_field()}}
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
@@ -80,6 +81,5 @@
     </form>
 @endsection
 @section('scripts')
-    <script type="text/javascript" src="{{URL::asset('js/app.js')}}"></script>
     <script type="text/javascript" src="{{URL::asset('js/invoice_add/invoice-add.js')}}"></script>
 @endsection
