@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends BaseModel
-{
-    //
+class BaseModel extends Model{
+
 }
