@@ -1,22 +1,8 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{URL::asset('css/app.css')}}">
-    </head>
-    <body>
-    <div class="container">
-        <h1 class="text-center">Invoice</h1>
-        <form class="repeater">
-            <div class="row">
+@extends('layouts.default')
+@section('content')
+    <h1 class="text-center">Invoice</h1>
+    <form class="repeater">
+        <div class="row">
             <div class="col-12">
                 <div class="form-group">
                     <label for="date">Date</label>
@@ -25,27 +11,27 @@
                 <div class="form-group">
                     <label for="client_id">Client</label>
                     <select
-                                    data-parsley-required="true"	 class="form-control" id="client_id" name="client_id">
+                            data-parsley-required="true"	 class="form-control" id="client_id" name="client_id">
                         <option value="1">belal</option>
                         <option value="2">ahmed</option>
                     </select>
                 </div>
             </div>
-                <div class="my-2 col-12 text-center"><h2>Invoice Items</h2></div>
+            <div class="my-2 col-12 text-center"><h2>Invoice Items</h2></div>
             <div class="col-12">
                 <table class="table table-bordered">
                     <thead>
-                      <tr>
+                    <tr>
                         <th>#</th>
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Price</th>
                         <th>SubTotal</th>
                         <th>Delete</th>
-                      </tr>
+                    </tr>
                     </thead>
                     <tbody data-repeater-list="InvoiceItem">
-                      <tr data-repeater-item class="invoice-item">
+                    <tr data-repeater-item class="invoice-item">
                         <td>1</td>
                         <td>
                             <select  data-parsley-required="true" data-id="product_id" class="form-control" id="product_id-1" name="InvoiceItem[0][product_id]">
@@ -65,7 +51,7 @@
                         <td>
                             <input class="btn btn-danger" data-repeater-delete type="button" value="X"/>
                         </td>
-                      </tr>
+                    </tr>
 
 
                     </tbody>
@@ -80,21 +66,20 @@
                         <td></td>
                     </tr>
                     </tfoot>
-                  </table>
+                </table>
                 <div class="row">
                     <div class="col-12 text-right">
                         <button type="button" data-repeater-create class="text-center btn btn-success">+</button>
                     </div>
                 </div>
             </div>
-                <div class="mt-5 col-12 text-center">
-                    <button name="submit" class="btn btn-lg btn-success" type="submit">Submit</button>
-                </div>
+            <div class="mt-5 col-12 text-center">
+                <button name="submit" class="btn btn-lg btn-success" type="submit">Submit</button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+@endsection
+@section('scripts')
     <script type="text/javascript" src="{{URL::asset('js/app.js')}}"></script>
     <script type="text/javascript" src="{{URL::asset('js/invoice_add/invoice-add.js')}}"></script>
-
-    </body>
-</html>
+@endsection
