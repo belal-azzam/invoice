@@ -14,4 +14,13 @@ class InvoiceItem extends BaseModel
         'subtotal',
         'total'
     ];
+
+    function prodcut()
+    {
+        return $this->belongsTo('App\Models\Product');
+    }
+
+    function invoice(){
+        return $this->belongsTo('App\Models\Invoice');
+    }
 }

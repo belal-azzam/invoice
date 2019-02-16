@@ -7,7 +7,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="date">Date</label>
-                    <input  data-parsley-required="true"	 id="date" type="text" name="date" class="form-control"/>
+                    <input @if(isset($invoice)) value="{{date('Y/m/d H:i',strtotime($invoice->date))}}" @endif data-parsley-required="true"	 id="date" type="text" name="date" class="form-control"/>
                 </div>
                 <div class="form-group">
                     <label for="client_id">Client</label>

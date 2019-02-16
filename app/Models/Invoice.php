@@ -21,4 +21,8 @@ class Invoice extends BaseModel
     {
         return $this->hasMany('App\Models\InvoiceItem');
     }
+
+    public function client(){
+        return $this->belongsTo('App\Models\Client');
+    }
 }

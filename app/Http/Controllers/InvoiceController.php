@@ -25,7 +25,8 @@ class InvoiceController extends BaseController
     public function index()
     {
         //
-        $result = $this->invoiceRepo->all();
+        $invoices = $this->invoiceRepo->all();
+        return view('invoices.index', compact('invoices'));
     }
 
     /**
@@ -76,6 +77,7 @@ class InvoiceController extends BaseController
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -86,7 +88,10 @@ class InvoiceController extends BaseController
      */
     public function edit($id)
     {
-        //
+        $invoice = $this->invoiceRepo->find($id);
+        if($invoice){
+            return view('invoices.create', compact('invoice'));
+        }
     }
 
     /**
