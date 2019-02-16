@@ -31,5 +31,12 @@ class RepositoriesServiceProvider extends ServiceProvider
             'App\Repositories\InvoiceItemRepositoryInterface',
             'App\Repositories\InvoiceItemRepository'
         );
+        $this->app->bind(
+            'App\Repositories\ClientRepositoryInterface',
+            'App\Repositories\ClientRepository'
+        ); $this->app->bind(
+            'App\Repositories\ProductRepositoryInterface',
+            'App\Repositories\ProductRepository'
+        );
     }
 }
