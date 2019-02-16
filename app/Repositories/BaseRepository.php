@@ -33,6 +33,10 @@ class BaseRepository implements BaseRepositoryInterface {
         return $this->model->create($data);
     }
 
+    public function insertAll(array $data) {
+        return $this->model->insert($data);
+    }
+
     /**
      * @param array $data
      * @param $id

@@ -15,13 +15,20 @@ class CreateInvoiceItemsTable extends Migration
     {
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('invoice_id')->references('id')->on('invoices');
+            $table->integer('product_id')->unsigned();
+            $table->integer('invoice_id')->unsigned();
             $table->float('quantity');
             $table->float('item_price');
             $table->float('item_total');
+
             $table->timestamps();
         });
+
+        Schema::table('priorities', function($table) {
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('invoice_id')->references('id')->on('invoices');
+        });
+
     }
 
     /**

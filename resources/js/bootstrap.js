@@ -10,8 +10,9 @@ window._ = require('lodash');
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
-    require('jquery-ui');
+    $.ui = require('jquery-ui');
     require('jquery-ui/ui/widgets/datepicker');
+    require('jquery-datetimepicker');
     require('jquery.repeater');
     require('parsleyjs');
     require('moment');

@@ -44,10 +44,10 @@
                             <input  data-parsley-required="true" data-id="quantity" id="quantity-1" type="text" name="InvoiceItem[0][quantity]" class="invoice-item__qunatity form-control"/>
                         </td>
                         <td>
-                            <input  data-parsley-required="true" data-id="price" id="price-1" type="text" name="InvoiceItem[0][price]" class="invoice-item__price form-control"/>
+                            <input  data-parsley-required="true" data-id="price" id="price-1" type="text" name="InvoiceItem[0][item_price]" class="invoice-item__price form-control"/>
                         </td>
                         <td>
-                            <input  value="0" data-id="subtotal" readonly id="subtotal-1" name="InvoiceItem[0][subtotal]" type="text"  class=" invoice-item__subtotal form-control"/>
+                            <input  value="0" data-id="subtotal" readonly id="subtotal-1" name="InvoiceItem[0][item_total]" type="text"  class=" invoice-item__subtotal form-control"/>
                         </td>
                         <td>
                             <input class="btn btn-danger" data-repeater-delete type="button" value="X"/>
@@ -62,7 +62,7 @@
                             Total
                         </td>
                         <td >
-                            <input type="number" id="total" readonly name="Invoice[total]" class="form-control">
+                            <input type="number" id="total" readonly name="total" class="form-control">
                         </td>
                         <td></td>
                     </tr>
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="mt-5 col-12 text-center">
-                <button name="submit" class="btn btn-lg btn-success" type="submit">Submit</button>
+                <button  class="btn btn-lg btn-success" type="submit">Submit</button>
             </div>
         </div>
     </form>

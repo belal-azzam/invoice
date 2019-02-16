@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\InvoiceItemRepositoryInterface;
+use App\Repositories\InvoiceRepositoryInterface;
 use Illuminate\Http\Request;
 
 class InvoiceController extends BaseController
 {
+
+    var $invoiceRepo;
+    var $invoiceItemRepo;
+    function __construct( InvoiceRepositoryInterface $invoiceRepository, InvoiceItemRepositoryInterface $invoiceItemRepo)
+    {
+        $this->invoiceRepo = $invoiceRepository;
+        $this->invoiceItemRepo = $invoiceItemRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +25,7 @@ class InvoiceController extends BaseController
     public function index()
     {
         //
+        $result = $this->invoiceRepo->all();
     }
 
     /**
@@ -36,7 +48,23 @@ class InvoiceController extends BaseController
     public function store(Request $request)
     {
         //
-        dd($request->all());
+        $data = $request->all();
+        $data['paid'] = $data['total'];
+        $data['unpaid'] = 0;
+        $data['status'] = 1;
+        $data['type'] = 1;
+        $invoiceItemsData = $data['InvoiceItem'];
+        unset($data['InvoiceItem']);
+        $result = $this->invoiceRepo->create($data);
+        if($result)
+        {
+            foreach ($invoiceItemsData as $k => &$invoiceItem)
+            {
+                $invoiceItem['invoice_id'] = $result->id;
+            }
+            $this->invoiceItemRepo->insertAll($invoiceItemsData);
+        }
+
     }
 
     /**

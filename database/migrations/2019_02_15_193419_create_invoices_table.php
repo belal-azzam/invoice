@@ -16,8 +16,7 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
-            $table->integer('client_id');
-            $table->foreign('client_id')->references('id')->on('clients');
+            $table->integer('client_id')->unsigned();
             $table->float('total');
             $table->float('paid');
             $table->float('unpaid');
@@ -25,6 +24,10 @@ class CreateInvoicesTable extends Migration
             $table->tinyInteger('type');
             $table->softDeletes();
             $table->timestamps();
+        });
+
+        Schema::table('invoices', function (Blueprint $table){
+            $table->foreign('client_id')->references('id')->on('clients');
         });
     }
 

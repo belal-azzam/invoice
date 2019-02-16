@@ -19,6 +19,7 @@ $(document).ready(function () {
         // at this point.  If a show callback is not given the item will
         // have $(this).show() called on it.
         show: function () {
+            console.log('1233');
             index = $('.invoice-item').length;
             $(this).find('input,select').each(function () {
                 newId = $(this).data('id') + '-' + index;
@@ -28,7 +29,7 @@ $(document).ready(function () {
                     index++;
                 }
                 $(this).attr('id', newId);
-            })
+            });
             $(this).slideDown();
         },
         // (Optional)
@@ -59,7 +60,6 @@ $(document).ready(function () {
     function calculateTotals()
     {
         total = 0;
-        console.log('123');
         $('.invoice-item').each(function () {
             itemPrice = $(this).find('.invoice-item__price').val();
             itemQunatity = $(this).find('.invoice-item__qunatity').val();
@@ -74,10 +74,8 @@ $(document).ready(function () {
     }
 
     $('body').on('change', '.invoice-item__price,.invoice-item__qunatity', calculateTotals);
-    $(function () {
-        $('#date').datepicker();
-        $('form').parsley();
-    })
+
+    // $('form').parsley();
 //
 //            $repeater.setList(
 //                [
@@ -90,3 +88,8 @@ $(document).ready(function () {
 //                ]
 //            )
 });
+$(function () {
+    $.datetimepicker.setLocale('en');
+
+    $('#date').datetimepicker();
+})
