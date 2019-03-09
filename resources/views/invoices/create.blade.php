@@ -2,19 +2,23 @@
     .card{
         margin-bottom: 2rem;
     }
+
     #form-container{
         margin-top: 4rem;
     }
 </style>
 @extends('layouts.default')
 @section('content')
-    <h1 class="text-center">Create Invoice</h1>
+    <h1 class="h2">Create Invoice</h1>
     <div id="form-container">
 
 
-    <form class="repeater" method="post" action="{{route('invoices.store')}}">
+    <form class="repeater" method="post" action="{{!isset($invoice) ? route('invoices.store') : route('invoices.update', $invoice->id)}}">
+        <input type="hidden" name="type" value="1">
         {{csrf_field()}}
-
+        @if(isset($invoice))
+        <input name="_method" type="hidden" value="PUT">
+        @endif
         <div class="card">
             <div class="card-header">
                 <h4>Invoice Details</h4>
@@ -33,10 +37,18 @@
                         <div class="col-sm-10">
                         <select
                                 data-parsley-required="true"	 class="form-control" id="client_id" name="client_id">
-                            <option value="1">belal</option>
-                            <option value="2">ahmed</option>
+                            @foreach($clients as $client)
+                                <option @if(isset($invoice) && $invoice->client->id == $client->id) {{'selected="selected"'}} @endif value="{{$client->id}}">{{$client->name}}</option>
+                            @endforeach
+
                         </select>
                         </div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="status" value="1" id="paidCheckBox">
+                        <label class="form-check-label" for="paidCheckBox">
+                            Paid
+                        </label>
                     </div>
                 </div>
             </div>
@@ -50,7 +62,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-12 col-sm-12">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -64,10 +76,13 @@
                             <tbody data-repeater-list="InvoiceItem">
                             <tr data-repeater-item class="invoice-item">
                                 <td>
+                                    @if(isset($invoice))
+                                        <input type="hidden" data-id="id" class="invoice-item__id" id="id-1" name="id">
+                                    @endif
                                     <select  data-parsley-required="true" data-id="product_id" class="form-control" id="product_id-1" name="product_id">
-
-                                        <option value="1">belal</option>
-                                        <option value="2">ahmed</option>
+                                        @foreach($products as $prodcut)
+                                            <option value="{{$prodcut->id}}">{{$prodcut->name}}</option>
+                                        @endforeach
                                     </select>
                                 </td>
                                 <td>
@@ -113,8 +128,12 @@
     </form>
         </div>
 
-
 @endsection
 @section('scripts')
+    <script>
+        @if(isset($invoice))
+        var invoiceItems = @json($invoice->invoiceItems->toArray());
+        @endif
+    </script>
     <script type="text/javascript" src="{{URL::asset('js/invoice_add/invoice-add.js')}}"></script>
 @endsection

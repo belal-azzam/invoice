@@ -71,7 +71,7 @@ class BaseRepository implements BaseRepositoryInterface {
      * @return mixed
      */
     public function findBy($attribute, $value, $columns = array('*')) {
-        return $this->model->where($attribute, '=', $value)->first($columns);
+        return $this->model->where($attribute, '=', $value)->get($columns);
     }
 
 

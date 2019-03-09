@@ -25,4 +25,6 @@ class Invoice extends BaseModel
     public function client(){
         return $this->belongsTo('App\Models\Client');
     }
+
+
 }

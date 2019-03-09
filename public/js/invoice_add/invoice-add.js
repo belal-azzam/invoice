@@ -5,7 +5,7 @@ $(document).ready(function () {
         // start with an empty list of repeaters. Set your first (and only)
         // "data-repeater-item" with style="display:none;" and pass the
         // following configuration flag
-               initEmpty: true,
+        //        initEmpty: true,
         // (Optional)
         // "defaultValues" sets the values of added items.  The keys of
         // defaultValues refer to the value of the input's name attribute.
@@ -21,6 +21,7 @@ $(document).ready(function () {
         show: function () {
             index = $('.invoice-item').length;
             $(this).find('input,select').each(function () {
+
                 newId = $(this).data('id') + '-' + index;
                 while ($('#'+newId).length > 0)
                 {
@@ -75,17 +76,13 @@ $(document).ready(function () {
     $('body').on('change', '.invoice-item__price,.invoice-item__qunatity', calculateTotals);
 
     // $('form').parsley();
-//
-//            $repeater.setList(
-//                [
-//                    {
-//                        product_id: 1,
-//                        quantity: 2,
-//                        subtotal: 15,
-//                        price: 10,
-//                    }
-//                ]
-//            )
+         if(typeof invoiceItems != 'undefined')
+         {
+             $repeater.setList(
+                 invoiceItems
+             );
+         }
+
 });
 $(function () {
     $.datetimepicker.setLocale('en');

@@ -1,32 +1,50 @@
 @extends('layouts.default')
-
+<style>
+    .page-head{
+        margin-bottom: 10px;
+    }
+</style>
 @section('content')
-    <div class="card">
-        <h5 class="card-header">Invoices</h5>
-        @foreach($invoices as $invoice)
-            <div class="card-body">
-                <div class="row">
-
-                    <div class="col">
-                        <h5 class="card-title">{{$invoice->id}}</h5>
-                        <h5 class="card-title">{{$invoice->client->name}}</h5>
-                        <h5 class="card-title">{{$invoice->total}}</h5>
-                    </div>
-                    <div class="col ">
-                        <div class="row">
-                            <a href="{{route('invoices.show', [$invoice->id])}}" class=" btn btn-info">View</a>
-                            <a href="{{route('invoices.edit', [$invoice->id])}}" class=" btn btn-primary">Edit</a>
-                            <form action="{{route('invoices.destroy', [$invoice->id])}}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button  type="submit " class="btn btn-danger">Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    @endforeach
-
+    <div class="page-head">
+    <h2 class="section-title d-inline">Invoices</h2>
+    <a href="{{route('invoices.create')}}" class="btn  btn-lg btn-success pull-right">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </a>
     </div>
+        <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Client</th>
+            <th scope="col">Status</th>
+            <th scope="col">Total</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($invoices as $invoice)
+
+            <tr>
+                <th scope="row"> {{$invoice->id}}</th>
+                <td>{{$invoice->client->name}}</td>
+                <td>{{$statuses[$invoice->status]}}</td>
+                <td>{{$invoice->total}}</td>
+                <td>
+                    <a href="{{route('invoices.show', [$invoice->id])}}" class=" btn btn-sm btn-light">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        View</a>
+                    <a href="{{route('invoices.edit', [$invoice->id])}}" class=" btn btn-sm btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i>
+                        Edit</a>
+                    <form class="d-inline" action="{{route('invoices.destroy', [$invoice->id])}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button  type="submit " class="btn  btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                            Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 
 @stop
