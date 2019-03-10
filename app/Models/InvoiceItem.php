@@ -9,10 +9,10 @@ class InvoiceItem extends BaseModel
     //
     protected $fillable = [
         'product_id',
+        'invoice_id',
+        'item_price',
+        'item_total',
         'quantity',
-        'price',
-        'subtotal',
-        'total'
     ];
 
     function prodcut()

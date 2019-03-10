@@ -12,7 +12,6 @@
     <h1 class="h2">Create Invoice</h1>
     <div id="form-container">
 
-
     <form class="repeater" method="post" action="{{!isset($invoice) ? route('invoices.store') : route('invoices.update', $invoice->id)}}">
         <input type="hidden" name="type" value="1">
         {{csrf_field()}}

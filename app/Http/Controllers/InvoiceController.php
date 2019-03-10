@@ -4,28 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Repositories\ClientRepositoryInterface;
 use App\Repositories\InvoiceItemRepositoryInterface;
-use App\Repositories\InvoiceRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
+use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 
 class InvoiceController extends BaseController
 {
 
-    var $invoiceRepo;
     var $invoiceItemRepo;
     var $clientRepo;
     var $productRepo;
-    function __construct( InvoiceRepositoryInterface $invoiceRepository,
+    var $invoiceService = null;
+    function __construct(
                           InvoiceItemRepositoryInterface $invoiceItemRepo,
                           ProductRepositoryInterface $productRepository,
-                          ClientRepositoryInterface $clientRepository
+                          ClientRepositoryInterface $clientRepository,
+                        InvoiceService  $invoiceService
     )
     {
-        $this->invoiceRepo = $invoiceRepository;
         $this->invoiceItemRepo = $invoiceItemRepo;
         $this->clientRepo = $clientRepository;
         $this->productRepo = $productRepository;
+        $this->invoiceService = $invoiceService;
     }
+
 
     /**
      * Display a listing of the resource.
@@ -35,8 +37,8 @@ class InvoiceController extends BaseController
     public function index()
     {
         //
-        $invoices = $this->invoiceRepo->all();
-        $statuses = $this->invoiceRepo->invoiceStatusList();
+        $invoices = $this->invoiceService->all();
+        $statuses = $this->invoiceService->invoiceStatusList();
         return view('invoices.index', compact('invoices', 'statuses'));
     }
 
@@ -44,27 +46,9 @@ class InvoiceController extends BaseController
     {
         $products = $this->productRepo->all();
         $clients = $this->clientRepo->all();
-
         return ['clients' => $clients, 'products' => $products];
     }
 
-    public function __submitCommon(Request $request)
-    {
-        $data = $request->except(['_token','_method']);
-        if(isset($data['status']) && $data['status'] == $this->invoiceRepo::INVOICE_STATUS_PAID)
-        {
-            $data['paid'] = $data['total'];
-            $data['unpaid'] = 0;
-        }else{
-            $data['unpaid'] = $data['total'];
-            $data['paid'] = 0;
-            $data['status'] = $this->invoiceRepo::INVOICE_STATUS_UNPAID;
-        }
-
-        $invoiceItemsData = $data['InvoiceItem'];
-        unset($data['InvoiceItem']);
-        return ['invoiceData' => $data, 'invoiceItemsData' => $invoiceItemsData];
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -84,20 +68,13 @@ class InvoiceController extends BaseController
      */
     public function store(Request $request)
     {
-        //
-        $result = $this->__submitCommon($request);
-        $invoiceItemsData = $result['invoiceItemsData'];
-        $result = $this->invoiceRepo->create($result['invoiceData']);
-
+        $result = $this->invoiceService->add($request);
         if($result)
         {
-            foreach ($invoiceItemsData as $k => &$invoiceItem)
-            {
-                $invoiceItem['invoice_id'] = $result->id;
-            }
-            $this->invoiceItemRepo->insertAll($invoiceItemsData);
+            return redirect()->route('invoices.index')->with('alert-success','Invoice Saved');
+        }else{
+            return redirect()->route('invoices.index')->with('alert-danger','Invoice Couldn\'t be saved');
         }
-        return redirect()->route('invoices.index')->with('alert-success','Invoice Saved');
     }
 
     /**
@@ -120,7 +97,7 @@ class InvoiceController extends BaseController
      */
     public function edit($id)
     {
-        $invoice = $this->invoiceRepo->find($id);
+        $invoice = $this->invoiceService->find($id);
         if($invoice){
             return view('invoices.create', array_merge($this->__formCommon(), ['invoice' => $invoice]));
         }
@@ -135,24 +112,14 @@ class InvoiceController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $result = $this->__submitCommon($request);
-        $invoiceItemsData = $result['invoiceItemsData'];
-
-        $result = $this->invoiceRepo->update($result['invoiceData'], $id);
-        $oldInvoiceitemsIds = $this->invoiceItemRepo->findBy('invoice_id', $id, ['id'])->toArray();
-        var_dump($invoiceItemsData);
-        var_dump($oldInvoiceitemsIds);
-        dd(1);
-
+        $result = $this->invoiceService->update($id, $request);
         if($result)
         {
-            foreach ($invoiceItemsData as $k => &$invoiceItem)
-            {
-                $invoiceItem['invoice_id'] = $result->id;
-            }
-            $this->invoiceItemRepo->insertAll($invoiceItemsData);
+            return redirect()->route('invoices.index')->with('alert-success','Invoice Saved');
+        }else{
+            return redirect()->route('invoices.index')->with('alert-danger','Invoice Couldn\'t be saved');
         }
-        return redirect()->route('invoices.index')->with('alert-success','Invoice Saved');
+
     }
 
     /**
@@ -163,7 +130,7 @@ class InvoiceController extends BaseController
      */
     public function destroy($id)
     {
-        $this->invoiceRepo->delete($id);
+        $this->invoiceService->delete($id);
         return redirect()->route('invoices.index')->with('alert-success','Invoice Deleted');
     }
 }

@@ -10,11 +10,5 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         parent::__construct($invoice);
     }
 
-    function invoiceStatusList()
-    {
-        return [
-            SELF::INVOICE_STATUS_PAID => 'Paid',
-            SELF::INVOICE_STATUS_UNPAID => 'Unpaid',
-        ];
-    }
+
 }
