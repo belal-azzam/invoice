@@ -1,9 +1,5 @@
 @extends('layouts.default')
-<style>
-    .page-head{
-        margin-bottom: 10px;
-    }
-</style>
+
 @section('content')
     <div class="page-head">
     <h2 class="section-title d-inline">Invoices</h2>

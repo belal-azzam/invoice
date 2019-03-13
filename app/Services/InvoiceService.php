@@ -31,6 +31,11 @@ class InvoiceService {
         ];
     }
 
+    function findOrFail($id)
+    {
+        return $this->invoiceRepo->findOrFail($id);
+    }
+
     function find($id)
     {
         return $this->invoiceRepo->find($id);

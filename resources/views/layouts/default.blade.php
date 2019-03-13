@@ -10,8 +10,11 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{URL::asset('css/app.css')}}">
-<style>
 
+<style>
+    .page-head{
+        margin-bottom: 10px;
+    }
 </style>
 </head>
 <body>

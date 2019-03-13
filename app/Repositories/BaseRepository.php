@@ -77,4 +77,8 @@ class BaseRepository implements BaseRepositoryInterface {
     }
 
 
+    public function findOrFail($id)
+    {
+        return $this->model->findOrFail($id);
+    }
 }

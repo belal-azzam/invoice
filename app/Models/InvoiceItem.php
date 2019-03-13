@@ -15,7 +15,7 @@ class InvoiceItem extends BaseModel
         'quantity',
     ];
 
-    function prodcut()
+    function product()
     {
         return $this->belongsTo('App\Models\Product');
     }

@@ -85,8 +85,8 @@ class InvoiceController extends BaseController
      */
     public function show($id)
     {
-        //
-
+        $invoice = $this->invoiceService->findOrFail($id);
+        return view('invoices.view', ['statusesText' => $this->invoiceService->invoiceStatusList(),'invoice' => $invoice]);
     }
 
     /**
