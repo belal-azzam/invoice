@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InvoiceCreated;
 use App\Repositories\ClientRepositoryInterface;
 use App\Repositories\InvoiceItemRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Services\InvoiceService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InvoiceController extends BaseController
 {
@@ -77,6 +79,14 @@ class InvoiceController extends BaseController
         }
     }
 
+    public function send_email($id, Request $request)
+    {
+        $viewData = $this->invoiceService->getViewData($id);
+        Mail::to(env('TO_EMAIL'))->send(new InvoiceCreated($viewData));
+        return redirect()->route('invoices.index')->with('alert-success','Invoice Sent');
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -85,8 +95,8 @@ class InvoiceController extends BaseController
      */
     public function show($id)
     {
-        $invoice = $this->invoiceService->findOrFail($id);
-        return view('invoices.view', ['statusesText' => $this->invoiceService->invoiceStatusList(),'invoice' => $invoice]);
+        $viewData = $this->invoiceService->getViewData($id);
+        return view('invoices.view', $viewData);
     }
 
     /**

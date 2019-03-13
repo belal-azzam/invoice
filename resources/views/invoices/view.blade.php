@@ -33,7 +33,7 @@
                 <div class="col-md-3 info-item__title  ">Created At</div>
                 <div class="col-md-9 info-item__value">{{$invoice->created_at}}</div>
             </div>
-        <hr class="mb-5"/>
+        <hr class="mb-3"/>
             <h4>Invoice Items</h4>
         </div>
 

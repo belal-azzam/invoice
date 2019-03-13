@@ -31,6 +31,12 @@ class InvoiceService {
         ];
     }
 
+    function getViewData($invoiceId)
+    {
+        $invoice = $this->findOrFail($invoiceId);
+        return ['statusesText' => $this->invoiceStatusList(),'invoice' => $invoice];
+    }
+
     function findOrFail($id)
     {
         return $this->invoiceRepo->findOrFail($id);

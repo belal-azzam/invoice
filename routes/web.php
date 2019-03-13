@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('/invoices', 'InvoiceController');
+Route::get('/invoices/{id}/send_email', 'InvoiceController@send_email')->name('invoices.send_email');

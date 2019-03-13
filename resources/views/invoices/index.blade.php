@@ -37,6 +37,8 @@
                         <button  type="submit " class="btn  btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i>
                             Delete</button>
                     </form>
+                    <a href="{{route('invoices.send_email', [$invoice->id])}}" class="btn btn-sm"><i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        Send Email</a>
                 </td>
             </tr>
         @endforeach

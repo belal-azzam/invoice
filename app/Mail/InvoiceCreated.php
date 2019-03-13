@@ -10,15 +10,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class InvoiceCreated extends Mailable
 {
     use Queueable, SerializesModels;
-    var $invoice;
+    var $data;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($invoice)
+    public function __construct($data)
     {
-        $this->invoice = $invoice;
+        $this->data = $data;
     }
 
     /**
@@ -28,6 +28,6 @@ class InvoiceCreated extends Mailable
      */
     public function build()
     {
-        return $this->from(env('FROM_EMAIL'))->view('view.name');
+        return $this->from(env('FROM_EMAIL'))->view('invoices.view')->with($this->data);
     }
 }
